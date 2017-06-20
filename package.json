@@ -1,0 +1,19 @@
+{
+  "name": "calculator-exercise",
+  "version": "1.0.0",
+  "description": "A simple calculator built as a submission to a coding assessment",
+  "main": "calculator.js",
+  "scripts": {
+    "test": "mocha calculator.test.js -w"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JonMcPherson/calculator-exercise.git"
+  },
+  "author": "Jon McPherson",
+  "license": "MIT",
+  "devDependencies": {
+    "chai": "4.0.2",
+    "mocha": "3.4.2"
+  }
+}

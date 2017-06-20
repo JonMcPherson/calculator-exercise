@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <script type="text/javascript" src="calculator.js"></script>
+    <script>
+        window.onload = function () {
+            var calculatorElement = document.getElementById("calculator");
+            var outputElement = calculatorElement.querySelector(".output");
+
+            var onButtonClick = function (e) {
+                var output = Calculator.input(e.target.name);
+                outputElement.innerHTML = output;
+            };
+
+            var buttons = calculatorElement.querySelectorAll("button");
+            for (var i = 0; i < buttons.length; i++) {
+                buttons[i].addEventListener("click", onButtonClick);
+            }
+
+            window.onunload = function () {
+                var container = calculatorElement.parentElement;
+                if (container) {
+                    container.removeChild(calculatorElement);
+                }
+            };
+        };
+    </script>
+    <style>
+        #calculator {
+            width: 225px;
+            overflow: hidden;
+            margin: 60px auto;
+            background: #e0e7ef;
+            box-shadow: 0px 2px 3px 1px rgba(0, 0, 0, 0.1);
+            border: solid 1px #c1c4c7;
+            font-family: sans-serif;
+            font-size: 14px;
+        }
+        #calculator .header {
+            overflow: hidden;
+            background: #c1c4c7;
+        }
+        #calculator .header span {
+            display: inline-block;
+            line-height: 20px;
+            margin: 5px;
+            font-weight: bold;
+        }
+        #calculator .header button {
+            height: 20px;
+            width: 20px;
+            float: right;
+        }
+        #calculator .output {
+            height: 30px;
+            line-height: 35px;
+            padding: 5px;
+            margin: 10px 5px 5px;
+            text-align: right;
+            font-size: 20px;
+            background: #fdfeff;
+            border: solid 1px #c1c4c7;
+        }
+        #calculator button {
+            width: 35px;
+            height: 30px;
+            padding: 0;
+            margin: 5px;
+            float: left;
+            background: #f5f7f9;
+        }
+        #calculator button.number {
+            background: #fff;
+        }
+        #calculator button.tall {
+            height: 70px;
+        }
+        #calculator button.wide {
+            width: 80px;
+        }
+        #calculator .btn-group {
+            position: relative;
+            float: left;
+            width: 180px;
+        }
+    </style>
+</head>
+<body>
+    <div id="calculator">
+        <div class="header">
+            <span>Calculator</span>
+            <button type="menu" name="Q">X</button>
+        </div>
+        <div class="output">0</div>
+        <div class="buttons">
+            <button type="button" name="←">&larr;</button>
+            <button type="button" name="CE">CE</button>
+            <button type="button" name="C">C</button>
+            <button type="button" name="±">&#177;</button>
+            <button type="button" name="√">&#8730;</button>
+            <button type="button" name="7" class="number">7</button>
+            <button type="button" name="8" class="number">8</button>
+            <button type="button" name="9" class="number">9</button>
+            <button type="button" name="/">/</button>
+            <button type="button" name="!">x!</button>
+            <button type="button" name="4" class="number">4</button>
+            <button type="button" name="5" class="number">5</button>
+            <button type="button" name="6" class="number">6</button>
+            <button type="button" name="*">*</button>
+            <button type="button" name="1/x">1/x</button>
+            <div class="btn-group">
+                <button type="button" name="1" class="number">1</button>
+                <button type="button" name="2" class="number">2</button>
+                <button type="button" name="3" class="number">3</button>
+                <button type="button" name="-">-</button>
+                <button type="button" name="0" class="number wide">0</button>
+                <button type="button" name="." class="number">.</button>
+                <button type="button" name="+">+</button>
+            </div>
+            <button type="button" name="=" class="tall">=</button>
+        </div>
+    </div>
+</body>
+</html
