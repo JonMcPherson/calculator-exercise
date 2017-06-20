@@ -127,14 +127,14 @@
         }
     });
 
-    function ControllerAction(symbol, func) {
-        this.symbol = symbol;
-        this.execute = func;
-    }
-
     function Controller() {
         var input = result.toString();
         var clearOnNumber = false;
+
+        var Action = function(symbol, handler) {
+            this.symbol = symbol;
+            this.execute = handler;
+        }
 
         var actions = (function () {
             var operatorHandler = function (operator) {
@@ -148,27 +148,27 @@
             var actions = {};
             for (var name in operators) {
                 var operator = operators[name];
-                actions[name] = new ControllerAction(operator.symbol, operatorHandler(operator));
+                actions[name] = new Action(operator.symbol, operatorHandler(operator));
             }
-            actions.back = new ControllerAction("←", function () {
+            actions.back = new Action("←", function () {
                 input = input.substr(0, input.length - 1);
                 if (!input.length) {
                     input = "0";
                 }
             });
-            actions.clear = new ControllerAction("C", function () {
+            actions.clear = new Action("C", function () {
                 operations.length = 0;
                 input = "0";
             });
-            actions.clearEntry = new ControllerAction("CE", function () {
+            actions.clearEntry = new Action("CE", function () {
                 input = "0";
             });
-            actions.evaluate = new ControllerAction("=", function () {
+            actions.evaluate = new Action("=", function () {
                 evaluate(Number(input));
                 input = result.toString();
                 clearOnNumber = true;
             });
-            actions.quit = new ControllerAction("Q", function () {
+            actions.quit = new Action("Q", function () {
                 if (typeof window !== "undefined") {
                     window.dispatchEvent(new Event("unload"));
                 }
@@ -192,6 +192,7 @@
         };
 
         this.input = function (value) {
+            // value can be an entire equation or only part of an equation
             value = (value && value.replace(/\s/g, "")) || "";
 
             for (var i = 0; i < value.length; i++) {
@@ -202,23 +203,23 @@
                 } else {
                     var char = value[i];
                     if (char === ".") {
-                        if (input.indexOf(".") >= 0) {
-                            continue;
+                        // Ignore duplicate decimal points
+                        if (input.indexOf(".") === -1) {
+                            if (clearOnNumber) {
+                                input = "0";
+                                clearOnNumber = false;
+                            }
+                            input += char;
                         }
-                        if (clearOnNumber) {
-                            input = "0";
-                            clearOnNumber = false;
-                        }
-                        input += char;
-                    } else if (isNaN(char)) {
-                        throw new Error("Invalid symbol in '" + value + "' at index " + i);
-                    } else {
+                    } else if (!isNaN(char)) {
                         if (clearOnNumber || input === "0") {
                             input = char;
                             clearOnNumber = false;
                         } else {
                             input += char;
                         }
+                    } else {
+                        throw new Error("Invalid symbol in '" + value + "' at index " + i);
                     }
                 }
             }
