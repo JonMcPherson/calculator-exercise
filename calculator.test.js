@@ -70,4 +70,10 @@ describe("Additional Tests", function () {
         calculator.input("5 * 5 ← 3");
         expect(calculator.evaluate()).to.equal(15);
     });
+
+    it("throws exception with invalid symbol", function () {
+        expect(function () {
+            calculator.input("2 + 3 * 4^2"); // Power isn't supported
+        }).to.throw();
+    });
 });
