@@ -1,8 +1,8 @@
 var expect = require("chai").expect;
 var calculator = require("./calculator");
 
-describe("calculator-exercise", function () {
-    it("evaluates multiple calculations", function () {
+describe("Exercise Examples", function () {
+    it("evaluates multiple chained calculations", function () {
         calculator.input("2 + 2");
         expect(calculator.evaluate()).to.equal(4);
 
@@ -15,13 +15,13 @@ describe("calculator-exercise", function () {
         expect(calculator.evaluate()).to.equal(14);
     });
 
-    it("evaluates with preceding negative operand", function () {
+    it("evaluates with negative left operand", function () {
         calculator.input("C"); // Clear input from previous evaluation to prevent chaining
         calculator.input("-5*5/3");
         expect(calculator.evaluate()).to.be.within(-8.33334, -8.33333);
     });
 
-    it("evaluates with following operand negated", function () {
+    it("evaluates with negated right operand", function () {
         calculator.input("7 + 6±");
         expect(calculator.evaluate()).to.equal(1);
     });
@@ -47,5 +47,27 @@ describe("calculator-exercise", function () {
         expect(function () {
             calculator.input("Q")
         }).to.throw();
+    });
+});
+
+describe("Additional Tests", function () {
+    it("ignores duplicate decimal points", function () {
+        calculator.input(".3026.34");
+        expect(calculator.evaluate()).to.equal(0.302634);
+    });
+
+    it("evaluates with multiple unary operators", function () {
+        calculator.input("64√!±"); // negate(fact(sqrt(64)))
+        expect(calculator.evaluate()).to.equal(-40320);
+    });
+
+    it("evaluates with multiple binary operators", function () {
+        calculator.input("4 + + + + -"); // 4 + 4 + 8 + 16 + 32 - 64
+        expect(calculator.evaluate()).to.equal(0);
+    })
+
+    it("evaluates with deleted number", function () {
+        calculator.input("5 * 5 ← 3");
+        expect(calculator.evaluate()).to.equal(15);
     });
 });

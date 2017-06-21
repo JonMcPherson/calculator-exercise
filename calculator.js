@@ -131,7 +131,7 @@
         var input = result.toString();
         var clearOnNumber = false;
 
-        var Action = function(symbol, handler) {
+        var Action = function (symbol, handler) {
             this.symbol = symbol;
             this.execute = handler;
         }
